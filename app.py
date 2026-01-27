@@ -1,5 +1,5 @@
-import dash
-from dash import dcc
+import dash # type: ignore
+from dash import dcc # type: ignore
 from dash import html
 from dash.dependencies import Input, Output
 import plotly.graph_objs as go
@@ -18,14 +18,15 @@ app.title = "Dashboard energia"
 server = app.server
 app.config.suppress_callback_exceptions = True
 
-
-# Load data from csv
-def load_data():
-    # To do: Completar la función 
-    
-
 # Cargar datos
+def load_data():
+    df = pd.read_csv("datos_energia.csv")
+    df["time"] = pd.to_datetime(df["time"])
+    df.set_index("time", inplace=True)
+    return df
+
 data = load_data()
+
 
 # Graficar serie
 def plot_series(data, initial_date, proy):
